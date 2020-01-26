@@ -8,7 +8,7 @@ var app = express();
 var server = require('http').Server(app);
 // const PushNotifications = require('node-pushnotifications');
 // Start the server
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8080;
 server.listen(port);
 var io  = require('socket.io').listen(server);
 const {MONGODB_CONN_STR} = require("./configuration/index")

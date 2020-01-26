@@ -22,41 +22,14 @@ var storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 
-router.route('/signup')
-  .post(validateBody(schemas.authSchema), UsersController.signUp);
-
-router.route('/signin')
-  .post(validateBody(schemas.authSchema), passportSignIn, UsersController.signIn);
-
-router.route('/signout')
-  .get(passportJWT, UsersController.signOut);
-
-router.route('/oauth/google')
-  .post(passport.authenticate('googleToken', { session: false }), UsersController.googleOAuth);
-
-router.route('/oauth/facebook')
-  .post(passport.authenticate('facebookToken', { session: false }), UsersController.facebookOAuth);
-
-router.route('/oauth/link/google')
-  .post(passportJWT, passport.authorize('googleToken', { session: false }), UsersController.linkGoogle)
-
-router.route('/oauth/unlink/google')
-  .post(passportJWT, UsersController.unlinkGoogle);
-
-router.route('/oauth/link/facebook')
-  .post(passportJWT, passport.authorize('facebookToken', { session: false }), UsersController.linkFacebook)
-
-router.route('/oauth/unlink/facebook')
-  .post(passportJWT, UsersController.unlinkFacebook);
-
-router.route('/dashboard')
-  .get(passportJWT, UsersController.dashboard);
+router.route('/auth')
+  .post(validateBody(schemas.authSchema), UsersController.auth);
 
 router.route('/status')
   .get(passportJWT, UsersController.checkAuth);
 
 router.route('/list')
-  .get(validateParams(schemas.queryUser), UsersController.getUsers);
+  .get(passportJWT, validateParams(schemas.queryUser), UsersController.getUsers);
 
 router.route('/profile/update')
   .put(passportJWT, UsersController.updateProfile)
